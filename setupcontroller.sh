@@ -1,23 +1,23 @@
     #!/bin/bash
 
-# Get controller username and password as input. It is used as default for the controller.
+#  Get controller username and password as input. It is used as default for the controller.
 #
 
-export AZDATA_USERNAME=$1
+export AZDATA_USERNAME=arcadmin
 echo $AZDATA_USERNAME
-export AZDATA_PASSWORD=$2
+export AZDATA_PASSWORD=MyPassword123
 echo $AZDATA_PASSWORD
-export DOCKER_USERNAME=$3
+export DOCKER_USERNAME=22cda7bb-2eb1-419e-a742-8710c313fe79
 echo $DOCKER_USERNAME
-export DOCKER_PASSWORD=$4
+export DOCKER_PASSWORD=cb892016-5c33-4135-ac-7b15bc8cb0f7
 echo $DOCKER_PASSWORD
-export ARC_DC_NAME=$5
+export ARC_DC_NAME=arcdata-controller
 echo $ARC_DC_NAME
-export ARC_DC_SUBSCRIPTION=$6
+export ARC_DC_SUBSCRIPTION=cb40ae98-fbbe-428a-a7fd-fe49e3c877b8
 echo $ARC_DC_SUBSCRIPTION
-export ARC_DC_RG=$7
+export ARC_DC_RG=DreamDemo
 echo $ARC_DC_RG
-export ARC_DC_REGION=$8
+export ARC_DC_REGION=westus2
 echo $ARC_DC_REGION
 
 if [ -z "$AZDATA_USERNAME" ]
