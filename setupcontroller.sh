@@ -1,4 +1,4 @@
-#!/bin/bash
+    #!/bin/bash
 
 #  Get controller username and password as input. It is used as default for the controller.
 #
@@ -20,70 +20,70 @@ echo $ARC_DC_RG
 export ARC_DC_REGION=westus2
 echo $ARC_DC_REGION
 
-if [ -z "$AZDATA_USERNAME" ]
-then
-    read -p "Create Username for Azure Arc Data Controller: " username
-    echo
-    export AZDATA_USERNAME=$username
-fi
-if [ -z "$AZDATA_PASSWORD" ]
-then
-    while true; do
-        read -s -p "Create Password for Azure Arc Data Controller: " password
-        echo
-        read -s -p "Confirm your Password: " password2
-        echo
-        [ "$password" = "$password2" ] && break
-        echo "Password mismatch. Please try again."
-    done
-    export AZDATA_PASSWORD=$password
-fi
+# if [ -z "$AZDATA_USERNAME" ]
+# then
+    # read -p "Create Username for Azure Arc Data Controller: " username
+    # echo
+    # export AZDATA_USERNAME=$username
+# fi
+# if [ -z "$AZDATA_PASSWORD" ]
+# then
+    # while true; do
+        # read -s -p "Create Password for Azure Arc Data Controller: " password
+        # echo
+        # read -s -p "Confirm your Password: " password2
+        # echo
+        # [ "$password" = "$password2" ] && break
+        # echo "Password mismatch. Please try again."
+    # done
+    # export AZDATA_PASSWORD=$password
+# fi
 
-# Prompt for private preview repository username and password provided by Microsoft
-#
-if [ -z "$DOCKER_USERNAME" ]
-then
-    read -p 'Enter Azure Arc Data Controller repo username provided by Microsoft:' AADC_USERNAME
-    echo
-    export DOCKER_USERNAME=$AADC_USERNAME
-fi
-if [ -z "$DOCKER_PASSWORD" ]
-then
-    read -sp 'Enter Azure Arc Data Controller repo password provided by Microsoft:' AADC_PASSWORD
-    echo
-    export DOCKER_PASSWORD=$AADC_PASSWORD
-fi
+# # Prompt for private preview repository username and password provided by Microsoft
+# #
+# if [ -z "$DOCKER_USERNAME" ]
+# then
+    # read -p 'Enter Azure Arc Data Controller repo username provided by Microsoft:' AADC_USERNAME
+    # echo
+    # export DOCKER_USERNAME=$AADC_USERNAME
+# fi
+# if [ -z "$DOCKER_PASSWORD" ]
+# then
+    # read -sp 'Enter Azure Arc Data Controller repo password provided by Microsoft:' AADC_PASSWORD
+    # echo
+    # export DOCKER_PASSWORD=$AADC_PASSWORD
+# fi
 
 
-# Propmpt for Arc Data Controller properties.
-#
-if [ -z "$ARC_DC_NAME" ]
-then
-    read -p "Enter a name for the new Azure Arc Data Controller: " dc_name
-    echo
-    export ARC_DC_NAME=$dc_name
-fi
+# # Propmpt for Arc Data Controller properties.
+# #
+# if [ -z "$ARC_DC_NAME" ]
+# then
+    # read -p "Enter a name for the new Azure Arc Data Controller: " dc_name
+    # echo
+    # export ARC_DC_NAME=$dc_name
+# fi
 
-if [ -z "$ARC_DC_SUBSCRIPTION" ]
-then
-    read -p "Enter a subscription ID for the new Azure Arc Data Controller: " dc_subscription
-    echo
-    export ARC_DC_SUBSCRIPTION=$dc_subscription
-fi
+# if [ -z "$ARC_DC_SUBSCRIPTION" ]
+# then
+    # read -p "Enter a subscription ID for the new Azure Arc Data Controller: " dc_subscription
+    # echo
+    # export ARC_DC_SUBSCRIPTION=$dc_subscription
+# fi
 
-if [ -z "$ARC_DC_RG" ]
-then
-    read -p "Enter a resource group for the new Azure Arc Data Controller: " dc_rg
-    echo
-    export ARC_DC_RG=$dc_rg
-fi
+# if [ -z "$ARC_DC_RG" ]
+# then
+    # read -p "Enter a resource group for the new Azure Arc Data Controller: " dc_rg
+    # echo
+    # export ARC_DC_RG=$dc_rg
+# fi
 
-if [ -z "$ARC_DC_REGION" ]
-then
-    read -p "Enter a region for the new Azure Arc Data Controller (eastus or eastus2): " dc_region
-    echo
-    export ARC_DC_REGION=$dc_region
-fi
+# if [ -z "$ARC_DC_REGION" ]
+# then
+    # read -p "Enter a region for the new Azure Arc Data Controller (eastus or eastus2): " dc_region
+    # echo
+    # export ARC_DC_REGION=$dc_region
+# fi
 
 
 set -Eeuo pipefail
@@ -370,3 +370,4 @@ azdata login -n $CLUSTER_NAME
 
 echo "Cluster successfully setup. Run 'azdata --help' to see all available options."
 }| tee $LOG_FILE
+
