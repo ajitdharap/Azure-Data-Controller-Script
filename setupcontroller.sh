@@ -86,7 +86,7 @@ echo $ARC_DC_REGION
 # fi
 
 
-set -Eeuo pipefail
+# set -Eeuo pipefail
 
 # This is a script to create single-node Kubernetes cluster and deploy Azure Arc Data Controller on it.
 #
