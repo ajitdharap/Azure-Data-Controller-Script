@@ -150,7 +150,7 @@ sudo apt update -q
 sudo apt-get install -q --yes docker-ce=18.06.2~ce~3-0~ubuntu --allow-downgrades
 sudo apt-mark hold docker-ce
 
-sudo usermod --append --groups docker $USER
+sudo usermod --append --groups docker root
 
 # Create working directory
 #
@@ -286,10 +286,10 @@ echo "Starting to setup Kubernetes master..."
 #
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version=$KUBE_VERSION
 
-mkdir -p $HOME/.kube
+mkdir -p root/.kube
 
-sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u $USER):$(id -g $USER) $HOME/.kube/config
+sudo cp -f /etc/kubernetes/admin.conf root/.kube/config
+sudo chown $(id -u root):$(id -g root) root/.kube/config
 
 # To enable a single node cluster remove the taint that limits the first node to master only service.
 #
