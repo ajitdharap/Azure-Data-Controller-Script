@@ -296,12 +296,15 @@ sudo chown $(id -u root):$(id -g root) /root/.kube/config
 
 # To enable a single node cluster remove the taint that limits the first node to master only service.
 #
+sudo touch /root/b4taint.log
 master_node=`kubectl get nodes --no-headers=true --output=custom-columns=NAME:.metadata.name`
 kubectl taint nodes ${master_node} node-role.kubernetes.io/master:NoSchedule-
-
+sudo touch /root/aftertaint.log
 # Local storage provisioning.
 #
 kubectl apply -f https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/features/azure-arc/deployment/kubeadm/ubuntu/local-storage-provisioner.yaml
+
+sudo touch /root/afterstpyml.log
 
 # Set local-storage as the default storage class
 #
@@ -314,6 +317,8 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 # helm init
 #
 kubectl apply -f https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/features/azure-arc/deployment/kubeadm/ubuntu/rbac.yaml
+
+sudo touch /root/afterrbacyml.log
 
 # Verify that the cluster is ready to be used.
 #
