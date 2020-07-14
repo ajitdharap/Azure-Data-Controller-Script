@@ -20,6 +20,8 @@ echo $ARC_DC_RG
 export ARC_DC_REGION=westus2
 echo $ARC_DC_REGION
 
+
+
 # if [ -z "$AZDATA_USERNAME" ]
 # then
     # read -p "Create Username for Azure Arc Data Controller: " username
@@ -286,11 +288,11 @@ echo "Starting to setup Kubernetes master..."
 #
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version=$KUBE_VERSION
 
-sudo touch citus.log
-sudo mkdir -p root/.kube
+sudo touch /root/citus.log
+sudo mkdir -p /root/.kube
 
-sudo cp -f /etc/kubernetes/admin.conf root/.kube/config
-sudo chown $(id -u root):$(id -g root) root/.kube/config
+sudo cp -f /etc/kubernetes/admin.conf /root/.kube/config
+sudo chown $(id -u root):$(id -g root) /root/.kube/config
 
 # To enable a single node cluster remove the taint that limits the first node to master only service.
 #
