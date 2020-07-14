@@ -286,6 +286,7 @@ echo "Starting to setup Kubernetes master..."
 #
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version=$KUBE_VERSION
 
+sudo touch citus.log
 sudo mkdir -p root/.kube
 
 sudo cp -f /etc/kubernetes/admin.conf root/.kube/config
