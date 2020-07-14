@@ -1,4 +1,4 @@
-    #!/bin/bash
+ #!/bin/bash
 
 #  Get controller username and password as input. It is used as default for the controller.
 #
@@ -92,7 +92,7 @@ echo $ARC_DC_REGION
 
 # This is a script to create single-node Kubernetes cluster and deploy Azure Arc Data Controller on it.
 #
-export AZUREARCDATACONTROLLER_DIR=aadatacontroller
+export AZUREARCDATACONTROLLER_DIR=/home/AzureUser/aadatacontroller
 
 # Name of virtualenv variable used.
 #
@@ -373,4 +373,5 @@ azdata login -n $CLUSTER_NAME
 
 echo "Cluster successfully setup. Run 'azdata --help' to see all available options."
 }| tee $LOG_FILE
+   
 
