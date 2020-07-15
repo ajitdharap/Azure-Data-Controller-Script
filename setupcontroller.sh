@@ -110,7 +110,7 @@ KUBE_VERSION=1.16.3
 
 # Wait for 5 minutes for the cluster to be ready.
 #
-TIMEOUT=600
+TIMEOUT=1200
 RETRY_INTERVAL=5
 
 # Variables used for azdata cluster creation.
@@ -205,9 +205,7 @@ sudo sed -i '/swap/s/^\(.*\)$/#\1/g' /etc/fstab
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-
 deb http://apt.kubernetes.io/ kubernetes-xenial main
-
 EOF
 
 # Install docker and packages to allow apt to use a repository over HTTPS.
@@ -297,26 +295,26 @@ sudo chown $(id -u root):$(id -g root) /root/.kube/config
 # To enable a single node cluster remove the taint that limits the first node to master only service.
 #
 sudo touch /root/b4taint.log
-master_node=`kubectl get nodes --no-headers=true --output=custom-columns=NAME:.metadata.name`
-kubectl taint nodes ${master_node} node-role.kubernetes.io/master:NoSchedule-
+master_node=`sudo -i kubectl get nodes --no-headers=true --output=custom-columns=NAME:.metadata.name`
+sudo -i kubectl taint nodes ${master_node} node-role.kubernetes.io/master:NoSchedule-
 sudo touch /root/aftertaint.log
 # Local storage provisioning.
 #
-kubectl apply -f https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/features/azure-arc/deployment/kubeadm/ubuntu/local-storage-provisioner.yaml
+sudo -i kubectl apply -f https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/features/azure-arc/deployment/kubeadm/ubuntu/local-storage-provisioner.yaml
 
 sudo touch /root/afterstpyml.log
 
 # Set local-storage as the default storage class
 #
-kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+sudo -i kubectl patch storageclass local-storage -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # Install the software defined network.
 #
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+sudo -i kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 # helm init
 #
-kubectl apply -f https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/features/azure-arc/deployment/kubeadm/ubuntu/rbac.yaml
+sudo -i kubectl apply -f https://raw.githubusercontent.com/microsoft/sql-server-samples/master/samples/features/azure-arc/deployment/kubeadm/ubuntu/rbac.yaml
 
 sudo touch /root/afterrbacyml.log
 
@@ -330,7 +328,7 @@ while true ; do
         exit 1
     fi
 
-    status=`kubectl get nodes --no-headers=true | awk '{print $2}'`
+    status=`sudo -i kubectl get nodes --no-headers=true | awk '{print $2}'`
 
     if [ "$status" == "Ready" ]; then
         break
@@ -343,13 +341,16 @@ while true ; do
     echo "Cluster not ready. Retrying..."
 done
 
+sudo touch /root/afterreadystate.log
 
 # Install the dashboard for Kubernetes.
 #
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+sudo -i kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
 
-kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+sudo -i kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 echo "Kubernetes master setup done."
+
+sudo touch /root/b4azdata_clustercreate.log
 
 # Deploy azdata Azure Arc Data Cotnroller create cluster.
 #
@@ -368,9 +369,11 @@ azdata arc dc config replace --config-file azure-arc-custom/control.json --json-
 azdata arc dc create -n $CLUSTER_NAME -c azure-arc-custom --accept-eula $ACCEPT_EULA
 echo "Azure Arc Data Controller cluster created."
 
+sudo touch /root/after_azdata_clustercreate.log
+
 # Setting context to cluster.
 #
-kubectl config set-context --current --namespace $CLUSTER_NAME
+sudo -i kubectl config set-context --current --namespace $CLUSTER_NAME
 
 # Login and get endpoint list for the cluster.
 #
@@ -378,5 +381,3 @@ azdata login -n $CLUSTER_NAME
 
 echo "Cluster successfully setup. Run 'azdata --help' to see all available options."
 }| tee $LOG_FILE
-   
-
